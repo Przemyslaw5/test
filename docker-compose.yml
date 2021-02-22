@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  api:
+    build:
+      ./springboot-api-docker
+    ports:
+      - "10101:10101"
+    restart: always
+    depends_on:
+      - database
+  client:
+    build:
+      ./springboot-client-docker
+    ports:
+      - "12121:12121"
+    restart: always
+    depends_on:
+      - api
+  database:
+    container_name: 'database'
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: animaldb
+    restart: always
+    ports:
+      - "3306:3306"
